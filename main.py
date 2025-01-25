@@ -16,8 +16,21 @@ intents = discord.Intents.all()
 bot = commands.Bot(command_prefix=PREFIX, intents=intents)
 
 
+async def load_cogs(bot: commands.Bot, path: str = "cogs") -> None:
+    for directory, _, filenames in os.walk(path):
+        for filename in filenames:
+            if filename.endswith(".py") and not filename.startswith("_"):
+                module_path = os.path.join(directory, filename).replace(os.sep, ".")
+                cog_path = module_path.removesuffix(".py")
+                try:
+                    await bot.load_extension(cog_path)
+                    print(f"Loaded '{cog_path}' sucessfully.")
+                except Exception as e:
+                    print(f"Error while loading cog '{cog_path}': {e}")
+
+
 async def custom_setup_hook() -> None:
-    print("Setup...")
+    await load_cogs(bot)
 
 
 bot.setup_hook = custom_setup_hook
