@@ -27,6 +27,9 @@ class Admin(commands.Cog):
                 f"Use `{ctx.prefix}help` to see available commands.",
             )
             await ctx.send(embed=embed)
+        else:
+            embed = EmbedHelper.create_error_embed("An unexpected error occured.")
+            await ctx.send(embed=embed)
 
 
 async def setup(bot: commands.Bot) -> None:
