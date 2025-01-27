@@ -7,9 +7,17 @@ class Admin(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @commands.command(name="reload")
+    @commands.command(name="reload", description="Reloads a specific cog.")
     @commands.is_owner()
-    async def reload(self, ctx: commands.Context, extension: str) -> None: ...
+    async def reload(self, ctx: commands.Context, extension: str) -> None:
+        cog_path = f"cogs.{extension}"
+        try:
+            await self.bot.reload_extension(cog_path)
+            embed = EmbedHelper.create_success_embed(f"Reloaded cog `{extension}`.")
+            await ctx.send(embed=embed)
+        except Exception:
+            embed = EmbedHelper.create_error_embed("placeholder")
+            await ctx.send(embed=embed)
 
     @commands.Cog.listener()
     async def on_command_error(
