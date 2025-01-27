@@ -27,6 +27,11 @@ class Admin(commands.Cog):
                 f"Use `{ctx.prefix}help` to see available commands.",
             )
             await ctx.send(embed=embed)
+        elif isinstance(error, commands.MissingPermissions):
+            embed = EmbedHelper.create_info_embed(
+                "You don't have the permission to run this command.",
+            )
+            await ctx.send(embed=embed)
         else:
             embed = EmbedHelper.create_error_embed("An unexpected error occured.")
             await ctx.send(embed=embed)
