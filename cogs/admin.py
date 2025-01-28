@@ -10,15 +10,49 @@ class Admin(commands.Cog):
     @commands.command(name="reload", description="Reloads a specific extension.")
     @commands.is_owner()
     async def reload(self, ctx: commands.Context, extension: str) -> None:
-        cog_path = f"cogs.{extension}"
+        extension_path = f"cogs.{extension}"
         try:
-            await self.bot.reload_extension(cog_path)
+            await self.bot.reload_extension(extension_path)
             embed = EmbedHelper.create_success_embed(
                 f"Reloaded extension `{extension}`."
             )
             await ctx.send(embed=embed)
         except commands.ExtensionNotFound:
-            embed = EmbedHelper.create_error_embed(f"Extension `{extension}`")
+            embed = EmbedHelper.create_error_embed(
+                f"Extension `{extension}` doesn't exist."
+            )
+            await ctx.send(embed=embed)
+
+    @commands.command(name="unload", description="Unloads a specific extension.")
+    @commands.is_owner()
+    async def unload(self, ctx: commands.Context, extension: str) -> None:
+        extension_path = f"cogs.{extension}"
+        try:
+            await self.bot.unload_extension(extension_path)
+            embed = EmbedHelper.create_success_embed(
+                f"Unloaded extension `{extension}`."
+            )
+            await ctx.send(embed=embed)
+        except commands.ExtensionNotFound:
+            embed = EmbedHelper.create_error_embed(
+                f"Extension `{extension}` doesn't exist."
+            )
+            await ctx.send(embed=embed)
+
+    @commands.command(name="load", description="Loads a specific extension.")
+    @commands.is_owner()
+    async def load(self, ctx: commands.Context, extension: str) -> None:
+        extension_path = f"cogs.{extension}"
+        try:
+            await self.bot.load_extension(extension_path)
+            embed = EmbedHelper.create_success_embed(
+                f"Loaded extension `{extension}`.",
+            )
+            await ctx.send(embed=embed)
+        except commands.ExtensionNotFound:
+            embed = EmbedHelper.create_error_embed(
+                f"Extension `{extension}` doesn't exist."
+            )
             await ctx.send(embed=embed)
 
     @commands.Cog.listener()
