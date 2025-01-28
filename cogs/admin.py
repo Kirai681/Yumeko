@@ -7,16 +7,18 @@ class Admin(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @commands.command(name="reload", description="Reloads a specific cog.")
+    @commands.command(name="reload", description="Reloads a specific extension.")
     @commands.is_owner()
     async def reload(self, ctx: commands.Context, extension: str) -> None:
         cog_path = f"cogs.{extension}"
         try:
             await self.bot.reload_extension(cog_path)
-            embed = EmbedHelper.create_success_embed(f"Reloaded cog `{extension}`.")
+            embed = EmbedHelper.create_success_embed(
+                f"Reloaded extension `{extension}`."
+            )
             await ctx.send(embed=embed)
-        except Exception:
-            embed = EmbedHelper.create_error_embed("placeholder")
+        except commands.ExtensionNotFound:
+            embed = EmbedHelper.create_error_embed(f"Extension `{extension}`")
             await ctx.send(embed=embed)
 
     @commands.Cog.listener()
@@ -35,8 +37,8 @@ class Admin(commands.Cog):
                 f"Use `{ctx.prefix}help` to see available commands.",
             )
             await ctx.send(embed=embed)
-        elif isinstance(error, commands.MissingPermissions):
-            embed = EmbedHelper.create_info_embed(
+        elif isinstance(error, commands.NotOwner):
+            embed = EmbedHelper.create_error_embed(
                 "You don't have the permission to run this command.",
             )
             await ctx.send(embed=embed)
