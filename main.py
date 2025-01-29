@@ -25,6 +25,7 @@ async def load_extensions(bot: commands.Bot, path: str = "extensions") -> None:
         defaults to "extensions"
     :type path: str, optional
     :return: None
+    :rtype: None
     """
     for root, _, filenames in os.walk(path):
         for filename in filenames:
@@ -41,6 +42,7 @@ async def custom_setup_hook() -> None:
     """Custom setup hook for the bot to load extensions before logging in.
 
     :return: None
+    :rtype: None
     """
     await load_extensions(bot)
 
