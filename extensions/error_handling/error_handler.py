@@ -38,7 +38,7 @@ class ErrorHandler(commands.Cog):
         :type title: str
         :param description: The description of the embed.
         :type description: str
-        :param ephermeral: If True, send an ephermeral message in,
+        :param ephermeral: If True, send an ephermeral message,
             defaults to True
         :type ephermeral: bool, optional
         :return: None
