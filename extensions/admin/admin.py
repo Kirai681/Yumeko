@@ -10,7 +10,7 @@ class Admin(commands.Cog):
     """
 
     def __init__(self, bot: commands.Bot) -> None:
-        """Initalizes the Admin Cog.
+        """Initalizes the admin cog.
 
         :param bot: The instance of the bot using this cog.
         :type bot: commands.Bot
@@ -19,11 +19,13 @@ class Admin(commands.Cog):
         """
         self.bot = bot
 
-    async def reload(self, ctx: commands.Context, extension: str) -> None: ...
+    @commands.command(name="reload", help="Reloads a specific extension.")
+    async def reload(self, ctx: commands.Context, extension: str) -> None:
+        await ctx.send("Reload...")
 
 
 async def setup(bot: commands.Bot) -> None:
-    """Sets up the Admin Cog by adding it to the bot.
+    """Sets up the admin cog by adding it to the bot.
 
     :param bot: The bot instance to which the cog is added to.
     :type bot: commands.Bot
