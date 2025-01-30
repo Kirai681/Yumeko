@@ -72,7 +72,6 @@ class ErrorHandler(commands.Cog):
         :return: None
         :rtype: None
         """
-        # TODO: Implement else case
         if isinstance(error, commands.CommandNotFound):
             await self.send_error_feedback(
                 ctx,
@@ -86,7 +85,11 @@ class ErrorHandler(commands.Cog):
                 f"Required argument is missing: `<{error.param.name}>`",
             )
         else:
-            ...
+            await self.send_error_feedback(
+                ctx,
+                "Unexpected Error",
+                f"{error}",
+            )
 
     # TODO: Implement error interface for app_commands
     @commands.Cog.listener()
