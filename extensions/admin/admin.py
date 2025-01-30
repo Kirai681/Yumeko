@@ -25,6 +25,7 @@ class Admin(commands.Cog):
         try:
             await self.bot.reload_extension(extension_path)
         except commands.ExtensionNotFound:
+            # TODO: Implement proper specific error handling
             ...
 
 
