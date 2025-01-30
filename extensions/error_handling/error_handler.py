@@ -2,7 +2,7 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
-from typing import Union
+from utils import EmbedHelper
 
 
 class ErrorHandler(commands.Cog):
@@ -23,40 +23,6 @@ class ErrorHandler(commands.Cog):
         """
         self.bot = bot
 
-    async def send_error_feedback(
-        self,
-        destination: Union[commands.Context, discord.Interaction],
-        title: str,
-        description: str,
-        ephermeral: bool = True,
-    ) -> None:
-        """Sends an error embed to a user in a command context or interaction.
-
-        :param destination: The destination for the message.
-        :type destination: Union[commands.Context, discord.Interaction]
-        :param title: The title of the embed.
-        :type title: str
-        :param description: The description of the embed.
-        :type description: str
-        :param ephermeral: If True, send an ephermeral message,
-            defaults to True
-        :type ephermeral: bool, optional
-        :return: None
-        :rtype: None
-        """
-        embed = discord.Embed(
-            title=title,
-            description=description,
-            color=discord.Color.red(),
-        )
-        if isinstance(destination, commands.Context):
-            await destination.send(embed=embed)
-        elif isinstance(destination, discord.Interaction):
-            await destination.response.send_message(
-                embed=embed,
-                ephemeral=ephermeral,
-            )
-
     @commands.Cog.listener()
     async def on_command_error(
         self,
@@ -73,23 +39,23 @@ class ErrorHandler(commands.Cog):
         :rtype: None
         """
         if isinstance(error, commands.CommandNotFound):
-            await self.send_error_feedback(
-                ctx,
+            embed = EmbedHelper.error_embed(
                 "Command Not Found",
                 f"Use `{ctx.prefix}help` to see available commands.",
             )
+            await ctx.send(embed=embed)
         elif isinstance(error, commands.MissingRequiredArgument):
-            await self.send_error_feedback(
-                ctx,
+            embed = EmbedHelper.error_embed(
                 "Missing Argument",
                 f"Required argument is missing: `<{error.param.name}>`",
             )
+            await ctx.send(embed=embed)
         else:
-            await self.send_error_feedback(
-                ctx,
+            embed = EmbedHelper.error_embed(
                 "Unexpected Error",
                 f"{error}",
             )
+            await ctx.send(embed=embed)
 
     # TODO: Implement error interface for app_commands
     @commands.Cog.listener()

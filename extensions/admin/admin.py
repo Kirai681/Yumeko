@@ -21,7 +21,11 @@ class Admin(commands.Cog):
 
     @commands.command(name="reload", help="Reloads a specific extension.")
     async def reload(self, ctx: commands.Context, extension: str) -> None:
-        await ctx.send("Reload...")
+        extension_path = f"extensions.{extension}"
+        try:
+            await self.bot.reload_extension(extension_path)
+        except commands.ExtensionNotFound:
+            ...
 
 
 async def setup(bot: commands.Bot) -> None:
