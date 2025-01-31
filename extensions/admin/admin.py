@@ -1,5 +1,7 @@
 from discord.ext import commands
 
+from utils import EmbedHelper
+
 
 class Admin(commands.Cog):
     """
@@ -24,6 +26,11 @@ class Admin(commands.Cog):
         extension_path = f"extensions.{extension}"
         try:
             await self.bot.reload_extension(extension_path)
+            embed = EmbedHelper.success_embed(
+                title="Reloaded Successfully",
+                description=f"Extension {extension} was reloaded successfully",
+            )
+            await ctx.send(embed=embed)
         except commands.ExtensionNotFound:
             # TODO: Implement proper specific error handling
             ...
