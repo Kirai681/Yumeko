@@ -3,21 +3,19 @@ from discord.ext import commands
 from utils import EmbedHelper
 
 
-class Admin(commands.Cog):
+class Loader(commands.Cog):
     """
-    Handles administrative commands for the bot.
+    Handles administrative commands for (re/un)loading bot extensions.
 
     :ivar bot: The instance of the bot using this cog.
-    :vartype boy: commands.Bot
+    :vartype bot: commands.Bot
     """
 
     def __init__(self, bot: commands.Bot) -> None:
-        """Initalizes the admin cog.
+        """Initalizes the Loader cog.
 
         :param bot: The instance of the bot using this cog.
         :type bot: commands.Bot
-        :return: None
-        :rtype: None
         """
         self.bot = bot
 
@@ -41,7 +39,5 @@ async def setup(bot: commands.Bot) -> None:
 
     :param bot: The bot instance to which the cog is added to.
     :type bot: commands.Bot
-    :return: None
-    :rtype: None
     """
-    await bot.add_cog(Admin(bot))
+    await bot.add_cog(Loader(bot))

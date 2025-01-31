@@ -18,8 +18,6 @@ class ErrorHandler(commands.Cog):
 
         :param bot: The instance of the bot using this cog.
         :type bot: commands.Bot
-        :return: None
-        :rtype: None
         """
         self.bot = bot
 
@@ -35,8 +33,6 @@ class ErrorHandler(commands.Cog):
         :type ctx: commands.Context
         :param error: The error raised during command execution.
         :type error: commands.CommandError
-        :return: None
-        :rtype: None
         """
         if isinstance(error, commands.CommandNotFound):
             embed = EmbedHelper.error_embed(
@@ -71,7 +67,5 @@ async def setup(bot: commands.Bot) -> None:
 
     :param bot: The bot instance to which the cog is added to.
     :type bot: commands.Bot
-    :return: None
-    :rtype: None
     """
     await bot.add_cog(ErrorHandler(bot))
