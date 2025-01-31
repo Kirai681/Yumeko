@@ -21,17 +21,36 @@ class Loader(commands.Cog):
 
     @commands.command(name="reload", help="Reloads a specific extension.")
     async def reload(self, ctx: commands.Context, extension: str) -> None:
+        """Reloads a specific extension.
+
+        :param ctx: The context in which the command was invoked.
+        :type ctx: commands.Context
+        :param extension: The extension to reload.
+        :type extension: str
+        """
         extension_path = f"extensions.{extension}"
         try:
+            if extension_path not in self.bot.extensions:
+                raise commands.ExtensionNotFound(extension_path)
+
             await self.bot.reload_extension(extension_path)
             embed = EmbedHelper.success_embed(
                 title="Reloaded Successfully",
-                description=f"Extension {extension} was reloaded successfully",
+                description=f"Extension `{extension}` was reloaded successfully",
             )
             await ctx.send(embed=embed)
         except commands.ExtensionNotFound:
-            # TODO: Implement proper specific error handling
-            ...
+            embed = EmbedHelper.error_embed(
+                title="Extension Not Found",
+                description=f"Extension `{extension}` does not exist.",
+            )
+            await ctx.send(embed=embed)
+        except commands.ExtensionNotLoaded:
+            embed = EmbedHelper.error_embed(
+                title="Extension Not Loaded",
+                description=f"Cannot reload extension `{extension}` because it is not loaded.",
+            )
+            await ctx.send(embed=embed)
 
 
 async def setup(bot: commands.Bot) -> None:
