@@ -19,6 +19,17 @@ class Loader(commands.Cog):
         """
         self.bot = bot
 
+    @commands.command(name="load", help="Loads a specific extension.")
+    async def load(self, ctx: commands.Context, extension: str) -> None:
+        """Loads a specific extension.
+
+        :param ctx: The context in which the command was invoked.
+        :type ctx: commands.Context
+        :param extension: The extension to reload.
+        :type extension: str
+        """
+        extension_path = f"extensions.{extension}"
+
     @commands.command(name="reload", help="Reloads a specific extension.")
     async def reload(self, ctx: commands.Context, extension: str) -> None:
         """Reloads a specific extension.
