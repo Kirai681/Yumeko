@@ -5,7 +5,7 @@ from utils import EmbedHelper
 
 class Loader(commands.Cog):
     """
-    Handles administrative commands for (re/un)loading bot extensions.
+    Handles administrative commands for (re/un)loading and listing bot extensions.
 
     :ivar bot: The instance of the bot using this cog.
     :vartype bot: commands.Bot
@@ -114,7 +114,7 @@ class Loader(commands.Cog):
 
 
 async def setup(bot: commands.Bot) -> None:
-    """Sets up the admin cog by adding it to the bot.
+    """Sets up the Loader cog by adding it to the bot.
 
     :param bot: The bot instance to which the cog is added to.
     :type bot: commands.Bot
