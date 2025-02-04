@@ -25,10 +25,29 @@ class Loader(commands.Cog):
 
         :param ctx: The context in which the command was invoked.
         :type ctx: commands.Context
-        :param extension: The extension to reload.
+        :param extension: The extension to load.
         :type extension: str
         """
         extension_path = f"extensions.{extension}"
+        try:
+            await self.bot.load_extension(extension_path)
+            embed = EmbedHelper.success_embed(
+                title="Loaded Successfully",
+                description=f"Extension `{extension}` was loaded successfully.",
+            )
+            await ctx.send(embed=embed)
+        except commands.ExtensionAlreadyLoaded:
+            embed = EmbedHelper.error_embed(
+                title="Extension Already Loaded",
+                description=f"Cannot load extension `{extension}` because it is already loaded.",
+            )
+            await ctx.send(embed=embed)
+        except commands.ExtensionNotFound:
+            embed = EmbedHelper.error_embed(
+                title="Extension Not Found",
+                description=f"Extension `{extension}` does not exist.",
+            )
+            await ctx.send(embed=embed)
 
     @commands.command(name="reload", help="Reloads a specific extension.")
     async def reload(self, ctx: commands.Context, extension: str) -> None:
@@ -47,7 +66,7 @@ class Loader(commands.Cog):
             await self.bot.reload_extension(extension_path)
             embed = EmbedHelper.success_embed(
                 title="Reloaded Successfully",
-                description=f"Extension `{extension}` was reloaded successfully",
+                description=f"Extension `{extension}` was reloaded successfully.",
             )
             await ctx.send(embed=embed)
         except commands.ExtensionNotFound:
@@ -60,6 +79,36 @@ class Loader(commands.Cog):
             embed = EmbedHelper.error_embed(
                 title="Extension Not Loaded",
                 description=f"Cannot reload extension `{extension}` because it is not loaded.",
+            )
+            await ctx.send(embed=embed)
+
+    @commands.command(name="unload", help="Unloads a specific extension.")
+    async def unload(self, ctx: commands.Context, extension: str) -> None:
+        """Unloads a specific extension.
+
+        :param ctx: The context in which the command was invoked.
+        :type ctx: commands.Context
+        :param extension: The extension to load.
+        :type extension: str
+        """
+        extension_path = f"extensions.{extension}"
+        try:
+            await self.bot.unload_extension(extension_path)
+            embed = EmbedHelper.success_embed(
+                title="Unloaded Successfully",
+                description=f"Extension `{extension}` was unloaded successfully.",
+            )
+            await ctx.send(embed=embed)
+        except commands.ExtensionAlreadyLoaded:
+            embed = EmbedHelper.error_embed(
+                title="Extension Already Loaded",
+                description=f"Cannot load extension `{extension}` because it is already loaded.",
+            )
+            await ctx.send(embed=embed)
+        except commands.ExtensionNotFound:
+            embed = EmbedHelper.error_embed(
+                title="Extension Not Found",
+                description=f"Extension `{extension}` does not exist.",
             )
             await ctx.send(embed=embed)
 
