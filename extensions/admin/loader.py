@@ -95,7 +95,7 @@ class Loader(commands.Cog):
         try:
             await self.bot.unload_extension(extension_path)
             embed = EmbedHelper.success_embed(
-                title="Unloaded Successfully",
+                title="Unloade8d Successfully",
                 description=f"Extension `{extension}` was unloaded successfully.",
             )
             await ctx.send(embed=embed)
@@ -111,6 +111,15 @@ class Loader(commands.Cog):
                 description=f"Extension `{extension}` does not exist.",
             )
             await ctx.send(embed=embed)
+
+    @commands.command(
+        name="list",
+        help="Lists extensions based on the provided option.\n"
+        "Option: `*` (all), `!` (unloaded), `#` (loaded).",
+    )
+    async def list_extensions(self, ctx: commands.Context) -> None:
+        ...
+        # loaded_extensions =
 
 
 async def setup(bot: commands.Bot) -> None:
