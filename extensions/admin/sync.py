@@ -1,6 +1,9 @@
 from discord.ext import commands
 
+from utils import EmbedHelper
+
 from typing import Optional
+from typing import Literal
 
 
 class Sync(commands.Cog):
@@ -19,12 +22,29 @@ class Sync(commands.Cog):
         """
         self.bot = bot
 
-    @commands.command(name="sync", help="...")
+    @commands.command(
+        name="sync",
+        help="Syncs app_commands basded on the provided action.\n"
+        "`*`: Sync globally\n"
+        "`~`: Sync current guild\n"
+        "`!`: Clear globally\n"
+        "`?`: Clear current guild",
+    )
     async def sync(
         self,
         ctx: commands.Context,
-        operation: Optional[str] = None,
-    ) -> None: ...
+        action: Optional[Literal["*", "~", "!", "?"]] = commands.parameter(
+            default=None,
+            description="The action to execute.",
+        ),
+    ) -> None:
+        match action:
+            case _:
+                embed = EmbedHelper.error_embed(
+                    title="Invalid Action",
+                    description=f"Use `{ctx.prefix}help {ctx.command}` to see available actions.",
+                )
+                await ctx.send(embed=embed)
 
 
 async def setup(bot: commands.Bot) -> None:

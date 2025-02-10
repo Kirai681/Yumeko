@@ -2,7 +2,11 @@ from discord.ext import commands
 
 
 class Dummy(commands.Cog):
-    """Dummy cog for testing purposes"""
+    """Dummy cog for testing purposes
+
+    :ivar bot: The instance of the bot using this cog.
+    :vartype bot: commands.Bot
+    """
 
     def __init__(self, bot: commands.Bot) -> None:
         """Initalizes the Dummy cog.
